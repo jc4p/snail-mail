@@ -19,3 +19,5 @@ $ foreman start
 ```
 
 You can now view a local instance at http://localhost:5000/
+
+Please note that if you make your `venv` folder within this project's root directory, you'll need to add `venv/` to `.gitignore`.
