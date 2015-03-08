@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Mail.Cheap</title>
+    {{ css('index') }}
+</head>
+<body>
+    <textarea id="message-text" name="message-text">You can write your letter in this space.
+
+It supports `Markdown` so you can do things like *bold* text or _underline_ important parts of your letter.
+
+Don't worry, we'll automatically take care of making sure it fits on the paper, so you just write out all the paragraphs you want to your heart's desire.
+
+If you are a nerd, you can even put in:
+    
+    def fizzBuzz():
+    	print "I don't know how to do this problem"
+
+neat, right?
+</textarea>
+    <div id="letter-preview"></div>
+
+    {{ js('index') }}
+</body>
+</html>

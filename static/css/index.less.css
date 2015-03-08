@@ -1,0 +1,13 @@
+code.hljs {
+  display: inline-block;
+  padding: 5px;
+}
+#message-text {
+  width: 400px;
+  height: 200px;
+}
+#letter-preview {
+  width: 600px;
+  max-height: 800px;
+  border: 1px solid #efefef;
+}
