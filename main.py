@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask.ext.assets import Environment, Bundle
 
 app = Flask(__name__)
-app.debug = True #True if os.getenv("ENV", "DEBUG") is "PROD" else False
+app.debug = True if os.getenv("ENV", "DEBUG") is "PROD" else False
 assets = Environment(app)
 
 js_base = Bundle('external/jquery.min.js',
