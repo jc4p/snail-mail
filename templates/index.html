@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Send Mail.Cheap</title>
-    {{ css('index') }}
+    {% assets "css_index" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+    {% endassets %}
 </head>
 <body>
     <textarea id="message-text" name="message-text">You can write your letter in this space.
@@ -14,12 +16,17 @@ Don't worry, we'll automatically take care of making sure it fits on the paper, 
 If you are a nerd, you can even put in:
     
     def fizzBuzz():
-    	print "I don't know how to do this problem"
+        print "I don't know how to do this problem"
 
 neat, right?
 </textarea>
     <div id="letter-preview"></div>
 
-    {{ js('index') }}
+    {% assets "js_base" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% assets "js_index" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 </body>
 </html>

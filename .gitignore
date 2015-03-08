@@ -52,3 +52,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Flask stuff
+.webassets-cache/
+static/gen/
