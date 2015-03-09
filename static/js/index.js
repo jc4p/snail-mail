@@ -67,8 +67,12 @@ $(document).ready(function() {
         data = $("#main-form").serializeObject();
         data['token'] = tokenId;
         html = '<head>' + BASE_CSS + PRINT_CSS + '</head>';
-        html += $(".letter-preview").html();
-        data['html'] = html;
+
+        pageHtml = $(".letter-preview").clone();
+        pageHtml.find(".return-address-text").text('');
+        pageHtml.find(".recipient-address-text").text('');
+
+        html += pageHtml.outerHTML();
 
         var win = window.open("", "Print Preview");
         win.document.write(html);
@@ -133,3 +137,9 @@ $.fn.serializeObject = function () {
    });
    return o;
 };
+
+$.fn.outerHTML = function(s) {
+  return (s)
+  ? this.before(s).remove()
+  : jQuery("<p>").append(this.eq(0).clone()).html();
+}
