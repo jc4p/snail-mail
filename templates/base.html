@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Let's Send Some Mail{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% assets "css_base" %}<link rel="stylesheet" href="{{ ASSET_URL }}"/>{% endassets %}
+    {% block additional_header %}{% endblock %}
+
+    <!--[if lt IE 9]>
+    <script src="{{ url_for('static', filename='external/flat-ui/vendor/html5shiv.js') }}"></script>
+    <script src="{{ url_for('static', filename='external/flat-ui/vendor/respond.min.js') }}"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Let's Send Some Mail</a>
+        </div>
+    </div>
+</nav>
+{% block content %}{% endblock %}
+
+<div class="bottom-menu mbl">
+  <div class="container">
+    <a href="#">About</a>
+  </div>
+</div>
+{% assets "js_base" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+{% block additional_js %}{% endblock %}
+</body>
+</html>

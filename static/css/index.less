@@ -1,15 +1,118 @@
-code.hljs {
-	display: inline-block;
-	padding: 5px;
+.bottom-menu {
+    margin-top: 50px;
+    margin-bottom: 0px !important;
+    font-size: 13px;
 }
 
 #message-text {
-	width: 400px;
-	height: 200px;
+    width: 100%;
+    height: 100%;
+    font-family: 'Inconsolata', monospace;
+    font-size: 16px;
 }
 
-#letter-preview {
-	width: 600px;
-	max-height: 800px;
-	border: 1px solid #efefef;
+.contact-details {
+    margin-bottom: 20px;
+
+    input {
+        margin-bottom: 5px;
+    }
+}
+
+.recipient-container {
+    padding-left: 0px;
+}
+
+.message-container {
+    height: 420px;
+}
+
+.input-container {
+    height: 100%;
+}
+
+.letter-preview {
+    border: 1px solid #efefef;
+    height: 100%;
+    overflow-y: scroll;
+    position: relative;
+}
+
+#message-contents {
+    font-family: 'Open Sans Condensed', sans-serif;
+    margin-top: 3.25in;
+}
+
+.payment-container {
+    margin-top: 55px;
+    text-align: center;
+
+    #payment-btn-stripe {
+        margin-bottom: 10px;
+        width: 160px;
+
+        .fui-credit-card {
+            left: -11px;
+        }
+    }
+
+    #payment-btn-twitter {
+        width: 160px;
+    }
+}
+
+.page {
+    page-break-after: always;
+    box-sizing: border-box;
+
+    .page-content {
+        position: relative;
+        width: 5in;
+        max-width: 8.125in;
+        max-height: 10.625in;
+        left: 0.1875in;
+        top: 0.1875in;
+    }
+
+    #return-address-window {
+        position: absolute;
+        left: .625in;
+        top: .5in;
+        width: 3.25in;
+        height: .875in;
+        background-color: rgba(127,127,127,0.2);
+
+        img {
+            position: absolute;
+            width: 0.8in;
+            height: 0.8in;
+            right: 0.0375in;
+            top: 0.0375in;
+        }
+    }
+
+    #return-address-text {
+        position: absolute;
+        left: .07in;
+        top: .07in;
+        width: 2.05in;
+        font-size: .11in;
+    }
+
+    #recipient-address-window {
+        position: absolute;
+        left: .625in;
+        top: 1.75in;
+        width: 4in;
+        height: 1in;
+        background-color: rgba(127,127,127,0.2);
+    }
+
+    #recipient-address-text {
+        position: absolute;
+        left: .07in;
+        top: .05in;
+        width: 2.92in;
+        height: .9in;
+    }
 }

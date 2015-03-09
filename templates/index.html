@@ -1,32 +1,88 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Send Mail.Cheap</title>
-    {% assets "css_index" %}
+{% extends "base.html" %}
+
+{% block additional_header %}
+{% assets "css_index" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}"/>
-    {% endassets %}
-</head>
-<body>
-    <textarea id="message-text" name="message-text">You can write your letter in this space.
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+    var BASE_CSS = {% assets "css_base" %}'<link rel="stylesheet" href="{{ ASSET_URL }}"/>'{% endassets %}
+    var PRINT_CSS = '<link rel="stylesheet" href="{{ ASSET_URL }}"/>';
+    </script>{% endassets %}{% endblock %}
 
-It supports `Markdown` so you can do things like *bold* text or _underline_ important parts of your letter.
+{% block additional_js %}
+{% assets "js_index" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+<script src="https://checkout.stripe.com/checkout.js"></script>{% endblock %}
 
-Don't worry, we'll automatically take care of making sure it fits on the paper, so you just write out all the paragraphs you want to your heart's desire.
+{% block content %}
+<div class="container">
+    <form id="main-form" method="POST" action="/send-letter">
+    <div class="row contact-details">
+        <div class="col-md-4 from-container">
+            <input id="from-name" name="from-name" type="text" placeholder="Your Name" class="form-control" />
+            <input id="from-address" name="from-address" type="text" placeholder="Your Street Address" class="form-control" />
+            <input id="from-location" name="from-location" type="text" placeholder="Your City And State" class="form-control" />
+            <input id="from-image" name="from-image" type="text" placeholder="URL for an image next to your name, if you'd like" class="form-control" />
+        </div>
+        <div class="col-md-3 col-md-offset-2 recipient-container">
+            <input id="to-name" name="to-name" type="text" placeholder="Their Name" class="form-control" />
+            <input id="to-address" name="to-address" type="text" placeholder="Their Street Address" class="form-control" />
+            <input id="to-location" name="to-location" type="text" placeholder="Their City And State" class="form-control" />
+            <select class="form-control select select-inverse select-block mbm">
+                    <option value="0">Registered USPS Mail</option>
+                    <option value="1">Certified USPS First Class</option>
+            </select>
+        </div>
+        <div class="col-md-3 payment-container">
+            <button id="payment-btn-stripe" class="btn btn-social-twitter">
+                <span class="fui-credit-card"></span> Send For <span class="payment-price">$2.99</span>
+            </button>
+            <button id="payment-btn-twitter" disabled="disabled" class="btn btn-social-twitter">
+                <span class="fui-twitter"></span> Send With A Tweet
+            </button>
+        </div>
+    </div>
+    </form>
+    <div class="row message-container">
+        <div class="col-md-6 input-container">
+            <textarea id="message-text" name="message-text">You can write your letter in this space. Whatever you write will show up immediately on the preview to the right (or bottom if you're on mobile).
 
-If you are a nerd, you can even put in:
-    
+We support Markdown so you can do things like **bold** text or _underline_ important parts of your letter.
+
+The gray blocks above this text show what will be visible within the window of the envelope.
+
+If you're sending a letter to a nerdy friend you can even do:
+
     def fizzBuzz():
         print "I don't know how to do this problem"
+            </textarea>
+        </div>
+        <div class="letter-preview col-md-6">
+            <div class="page">
+                <div class="page-content">
+                    <div id="picture-container"></div>
+                    <div id="message-contents"></div>
+                </div>
 
-neat, right?
-</textarea>
-    <div id="letter-preview"></div>
+                <div id="return-address-window">
+                    <div id="return-address-text">
+                        Your Name<br>
+                        Your Address<br>
+                        Your City And State<br>
+                    </div>
+                    <div id="return-address-image" style="display: none;">
+                        <img src="" class="img-circle" />
+                    </div>
+                </div>
 
-    {% assets "js_base" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    {% assets "js_index" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-</body>
-</html>
+                <div id="recipient-address-window">
+                    <div id="recipient-address-text">
+                        Their Name<br>
+                        Their Address<br>
+                        Their City And State<br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
