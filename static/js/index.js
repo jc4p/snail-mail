@@ -66,53 +66,22 @@ $(document).ready(function() {
     function sendLetter(tokenId) {
         data = $("#main-form").serializeObject();
         data['token'] = tokenId;
+        html = '<head>' + BASE_CSS + PRINT_CSS + '</head>';
 
-        // // Now make it so the window markers don't actually show on the real paper
-        // pageHtml.find("#return-address-window").css("background-color", "transparent");
-        // pageHtml.find("#recipient-address-window").css("background-color", "transparent");
+        pageHtml = $(".letter-preview").clone();
+        pageHtml.find("#return-address-text").text('');
+        pageHtml.find("#recipient-address-text").text('');
 
-        // html += pageHtml.outerHTML();
-        // console.log($(html));
+        html += pageHtml.outerHTML();
 
-        // element = document.createElement("");
-        // $(html).each(function(i, block) {
-        //     element.innerHTML += block
-        // });
+        var win = window.open("", "Print Preview");
+        win.document.write(html);
 
-        // Let's make a shadow clone first
-        $(".shadow-div").html($(".letter-preview").clone())
+        data['html'] = html
 
-        // Now let's remove the actual "we shouldn't be printing" stuff
-        $(".shadow-div .letter-preview").addClass("letter-preview-print");
-        $(".shadow-div .letter-preview").find("#return-address-text").text('');
-        $(".shadow-div .letter-preview").find("#recipient-address-text").text('');
-
-        // Now make it so the window markers don't actually show on the real paper
-        $(".shadow-div .letter-preview").find("#return-address-window").css("background-color", "transparent");
-        $(".shadow-div .letter-preview").find("#recipient-address-window").css("background-color", "transparent");
-
-        var offScreenElement = $(".shadow-div")[0];
-        actualHeight = $(".shadow-div").innerHeight();
-
-        // Alright let's show the shadow DOM until we take a picture
-        offScreenElement.style.position = 'relative';
-        offScreenElement.style.left = window.innerWidth + 'px';
-        offScreenElement.style.top = 0;
-
-        html2canvas($(".shadow-div .letter-preview")[0], {
-            logging: true,
-            height: actualHeight,
-            proxy: "html2canvas-proxy"})
-            .then(function(canvas) {
-                $(".shadow-div").attr('style', '')
-                $(".shadow-div").text('');
-                var dataUrl = canvas.toDataURL("image/png");
-                var w = window.open();
-                w.document.write('<img src="'+dataUrl+'"/>');
-            });
-        // $.post("/send-letter", data, function(res) {
-        //     console.log(res);
-        // });
+        $.post("/send-letter", data, function(res) {
+            console.log(res);
+        });
     }
 
     $("#payment-btn-twitter").on('click', function(e) {

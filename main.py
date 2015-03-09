@@ -28,9 +28,6 @@ css_index = Bundle('external/highlight/default.min.css',
 assets.register('css_base', css_base)
 assets.register('css_index', css_index)
 
-h2c = None
-real_path = os.path.dirname(os.path.realpath(__file__)) + '/tmp'
-virtual_path = '/html2canvas/static'
 
 @app.route('/')
 def home():
@@ -44,14 +41,10 @@ def send():
     sender = {'name': data['from-name'], 'address': data['from-address'], 'city': data['from-location'] }
     recipient = {'name': data['to-name'], 'address': data['to-address'], 'city': data['to-location'] }
 
-    # createdObject = createLobObject(data['html'])
-    # raise ValueError(createdObject)
-    
     # return true or false based on whether the address is valid
     has_from_address = verifyAddress(data['from-address'])
     has_to_address = verifyAddress(data['to-address']) 
 
-    pdb.set_trace()
     return has_from_address and has_to_address
 
 
