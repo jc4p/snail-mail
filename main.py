@@ -1,4 +1,5 @@
 import os
+import requests
 from flask import Flask, render_template
 from flask.ext.assets import Environment, Bundle
 
@@ -30,3 +31,36 @@ assets.register('css_index', css_index)
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/send-letter', methods=['GET', 'POST'])
+def send():
+    data = request.form
+
+    sender = {'name': data['from-name'], 'address': data['from-address'], 'city': data['from-location'] }
+    recipient = {'name': data['to-name'], 'address': data['to-address'], 'city': data['to-location'] }
+
+    # createdObject = createLobObject(data['html'])
+    # raise ValueError(createdObject)
+    
+    # return true or false based on whether the address is valid
+    return True
+
+
+
+def verifyAddress(address):
+    
+
+
+
+def createLobObject(html):
+    payload = {'setting': 100, 'template': 1}
+    auth = ('test_07fa45ae745b1d90e49e36ebb2112d6c128', '')
+
+    tempFile = TemporaryFile()
+    tempFile.write(html)
+
+    files = {"file": ('upload.html', html, 'text/html')}
+ 
+    res = requests.post('https://api.lob.com/v1/objects', data=payload, auth=auth, files=files)
+    return res.json()
