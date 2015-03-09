@@ -1,10 +1,11 @@
 import os
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, request, Response
 from flask.ext.assets import Environment, Bundle
+from html2canvasproxy import *
 
 app = Flask(__name__)
-app.debug = True #True if os.getenv("ENV", "DEBUG") is "PROD" else False
+app.config['DEBUG'] = True #True if os.getenv("ENV", "DEBUG") is "PROD" else False
 assets = Environment(app)
 
 js_base = Bundle('external/jquery.min.js',
@@ -12,6 +13,7 @@ js_base = Bundle('external/jquery.min.js',
             'external/flat-ui/flat-ui-pro.min.js',
             filters='jsmin', output='gen/base.js')
 js_index = Bundle('js/index.js', 'js/markdown.min.js',
+            'external/html2canvas-0.4.1.js',
             output='gen/index.js')
 
 assets.register('js_base', js_base)
@@ -27,6 +29,10 @@ css_index = Bundle('external/highlight/default.min.css',
 
 assets.register('css_base', css_base)
 assets.register('css_index', css_index)
+
+h2c = None
+real_path = os.path.dirname(os.path.realpath(__file__)) + '/tmp'
+virtual_path = '/html2canvas/static'
 
 @app.route('/')
 def home():
@@ -47,10 +53,8 @@ def send():
     return True
 
 
-
 def verifyAddress(address):
-    
-
+    return
 
 
 def createLobObject(html):
@@ -63,4 +67,9 @@ def createLobObject(html):
     files = {"file": ('upload.html', html, 'text/html')}
  
     res = requests.post('https://api.lob.com/v1/objects', data=payload, auth=auth, files=files)
+
     return res.json()
+
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0")

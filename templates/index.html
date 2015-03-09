@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 
 {% block additional_header %}
-{% assets "css_index" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>
-    <script type="text/javascript">
-    var BASE_CSS = {% assets "css_base" %}'<link rel="stylesheet" href="{{ ASSET_URL }}"/>'{% endassets %}
-    var PRINT_CSS = '<link rel="stylesheet" href="{{ ASSET_URL }}"/>';
-    </script>{% endassets %}{% endblock %}
+{% assets "css_index" %}<link rel="stylesheet" href="{{ ASSET_URL }}"/>{% endassets %}
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>{% endblock %}
 
 {% block additional_js %}
 {% assets "js_index" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
@@ -36,7 +31,7 @@
             <button id="payment-btn-stripe" class="btn btn-social-twitter">
                 <span class="fui-credit-card"></span> Send For <span class="payment-price">$2.99</span>
             </button>
-            <button id="payment-btn-twitter" disabled="disabled" class="btn btn-social-twitter">
+            <button id="payment-btn-twitter" class="btn btn-social-twitter">
                 <span class="fui-twitter"></span> Send With A Tweet
             </button>
         </div>
@@ -83,6 +78,8 @@ If you're sending a letter to a nerdy friend you can even do:
                 </div>
             </div>
         </div>
+    </div>
+    <div class="shadow-div">
     </div>
 </div>
 {% endblock %}
