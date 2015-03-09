@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
 {% block additional_header %}
-{% assets "css_index" %}<link rel="stylesheet" href="{{ ASSET_URL }}"/>{% endassets %}
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>{% endblock %}
+{% assets "css_index" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+    var BASE_CSS = {% assets "css_base" %}'<link rel="stylesheet" href="{{ ASSET_URL }}"/>'{% endassets %}
+    var PRINT_CSS = '<link rel="stylesheet" href="{{ ASSET_URL }}"/>';
+    </script>{% endassets %}{% endblock %}
 
 {% block additional_js %}
 {% assets "js_index" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
