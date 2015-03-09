@@ -69,8 +69,8 @@ $(document).ready(function() {
         html = '<head>' + BASE_CSS + PRINT_CSS + '</head>';
 
         pageHtml = $(".letter-preview").clone();
-        pageHtml.find(".return-address-text").text('');
-        pageHtml.find(".recipient-address-text").text('');
+        pageHtml.find("#return-address-text").text('');
+        pageHtml.find("#recipient-address-text").text('');
 
         html += pageHtml.outerHTML();
 
