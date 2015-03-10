@@ -1,1 +1,1 @@
-web: bin/start-nginx gunicorn -c gunicorn.conf main.wsgi:application
+web: bin/start-nginx gunicorn -c gunicorn.conf --log-file=- main:app
