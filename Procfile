@@ -1,1 +1,1 @@
-web: gunicorn main:app --log-file=-
+web: gunicorn main:app -k gevent -w 4 --log-file=- --preload
