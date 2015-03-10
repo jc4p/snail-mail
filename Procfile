@@ -1,1 +1,1 @@
-web: gunicorn main:app -k gevent -w 4 --log-file=- --preload
+web: bin/start-nginx run-program gunicorn -c gunicorn.conf main.wsgi:application
