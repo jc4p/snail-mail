@@ -60,9 +60,9 @@ def verifyAddress(address, city, state):
     res = requests.post('https://api.lob.com/v1/verify', data=payload, auth=auth)
 
     if res.json().has_key('address'):
-        return 'True'
+        return res.json()['address']
     else:
-        return 'False'
+        return None
 
 
 def createLobObject(html):
