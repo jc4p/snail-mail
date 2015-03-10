@@ -1,11 +1,11 @@
 import os
 import requests
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, jsonify
 from flask.ext.assets import Environment, Bundle
 from flask.ext.cors import CORS
 
 app = Flask(__name__)
-app.config['DEBUG'] = True #True if os.getenv("ENV", "DEBUG") is "PROD" else False
+app.config['DEBUG'] = True if os.getenv("ENV", "DEBUG") is "PROD" else False
 assets = Environment(app)
 cors = CORS(app, allow_headers="Content-Type")
 
@@ -30,6 +30,8 @@ css_index = Bundle(Bundle('css/index.less', filters='less'),
 assets.register('css_base', css_base)
 assets.register('css_index', css_index)
 
+LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if int(os.getenv('TEST_MODE', 1)) == 1 else os.getenv('LOB_API_KEY'), '')
+
 
 @app.route('/')
 def home():
@@ -40,23 +42,34 @@ def home():
 def send():
     data = request.form
 
-    sender = {'name': data['from-name'], 'address': data['from-address'], 'city': data['from-location'] }
-    recipient = {'name': data['to-name'], 'address': data['to-address'], 'city': data['to-location'] }
+    senderAddress = verifyAddress(data['from-address'].strip(), data['from-location'].split(',')[0].strip(), data['from-location'].split(',')[1].strip())
+    recipientAddress = verifyAddress(data['to-address'].strip(), data['to-location'].split(',')[0].strip(), data['to-location'].split(',')[1].strip())
+
+    if not senderAddress or not recipientAddress:
+        return jsonify({"success": False, "error": "Unable to verify your address."})
+
+    sender = createAddress(data['from-name'], senderAddress)
+    recipient = createAddress(data['to-name'], recipientAddress)
+
+    if not sender or not recipient:
+        return jsonify({"success": False, "error": "Unable to save your address."})
 
     full_letter = render_template("lob_base.html", message_html=data['html'])
     createdObj = createLobObject(full_letter)
 
-    # return true or false based on whether the address is valid
-    has_from_address = verifyAddress(data['from-address'], data['from-location'].split(',')[0], data['from-location'].split(',')[1])
-    has_to_address = verifyAddress(data['to-address'], data['to-location'].split(',')[0], data['to-location'].split(',')[1])
+    service = int(data['service'])
 
-    return has_from_address and has_to_address
+    job = sendLetter(recipient['id'], sender['id'], createdObj['id'], service)
+
+    if not job:
+        return jsonify({"success": False, "error": "Unable to send letter."})
+
+    return jsonify({"success": True})
 
 
 def verifyAddress(address, city, state):
-    auth = ('test_07fa45ae745b1d90e49e36ebb2112d6c128', '')
     payload = {'address_line1': address, 'address_city': city, 'address_state': state}
-    res = requests.post('https://api.lob.com/v1/verify', data=payload, auth=auth)
+    res = requests.post('https://api.lob.com/v1/verify', data=payload, auth=LOB_AUTH)
 
     if res.json().has_key('address'):
         return res.json()['address']
@@ -64,11 +77,30 @@ def verifyAddress(address, city, state):
         return None
 
 
+def createAddress(name, address):
+    payload = address
+    payload['name'] = name
+    payload.pop('object')
+
+    res = requests.post("https://api.lob.com/v1/addresses", data=payload, auth=LOB_AUTH)
+
+    return res.json()
+
+
 def createLobObject(html):
     payload = {'setting': 100, 'template': 1, 'file': html}
-    auth = ('test_07fa45ae745b1d90e49e36ebb2112d6c128', '')
  
-    res = requests.post('https://api.lob.com/v1/objects', data=payload, auth=auth)
+    res = requests.post('https://api.lob.com/v1/objects', data=payload, auth=LOB_AUTH)
+
+    return res.json()
+
+
+def sendLetter(recipient, sender, object_id, service):
+    payload = {'from': sender, 'to': recipient, 'object1': object_id}
+    if service != 0:
+        payload['service'] = service
+
+    res = requests.post('https://api.lob.com/v1/jobs', data=payload, auth=LOB_AUTH)
 
     return res.json()
 
