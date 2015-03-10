@@ -33,7 +33,7 @@ assets.register('css_index', css_index)
 def home():
     return render_template('index.html')
 
-
+import pdb
 @app.route('/send-letter', methods=['GET', 'POST'])
 def send():
     data = request.form
@@ -42,11 +42,20 @@ def send():
     recipient = {'name': data['to-name'], 'address': data['to-address'], 'city': data['to-location'] }
 
     # return true or false based on whether the address is valid
-    return "success"
+    has_from_address = verifyAddress(data['from-address'])
+    has_to_address = verifyAddress(data['to-address']) 
+
+    return has_from_address and has_to_address
 
 
 def verifyAddress(address):
-    return
+    auth = ('test_07fa45ae745b1d90e49e36ebb2112d6c128', '')
+    res = requests.post('https://api.lob.com/v1/verify', data=address, auth=auth)
+    if res.json().has_key('address'):
+        return True
+    else:
+        return False
+
 
 
 def createLobObject(html):
