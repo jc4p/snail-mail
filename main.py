@@ -30,7 +30,7 @@ css_index = Bundle(Bundle('css/index.less', filters='less'),
 assets.register('css_base', css_base)
 assets.register('css_index', css_index)
 
-LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if os.getenv('TEST_MODE', 0) else os.getenv('LOB_API_KEY'), '')
+LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if int(os.getenv('TEST_MODE', 1)) == 1 else os.getenv('LOB_API_KEY'), '')
 
 
 @app.route('/')
@@ -53,8 +53,6 @@ def send():
 
     if not sender or not recipient:
         return jsonify({"success": False, "error": "Unable to save your address."})
-
-    print sender
 
     full_letter = render_template("lob_base.html", message_html=data['html'])
     createdObj = createLobObject(full_letter)
