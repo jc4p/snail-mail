@@ -6,7 +6,6 @@
     <title>Send A Letter</title>
 
     {% assets "css_base" %}<link rel="stylesheet" href="http://easy-snail-mail.herokuapp.com{{ ASSET_URL }}"/>{% endassets %}
-    {% assets "css_index" %}<link rel="stylesheet" href="http://easy-snail-mail.herokuapp.com{{ ASSET_URL }}"/>{% endassets %}
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>
     <style type='text/css'>
         *, *:before, *:after {
@@ -34,7 +33,7 @@
             top: 0.1875in;
         }
 
-        .message-contents {
+        #message-contents {
             position: relative;
             left: 20px;
             width: 6in;
@@ -47,6 +46,14 @@
             top: .5in;
             width: 3.25in;
             height: .875in;
+        }
+
+        #return-address-window img {
+            position: absolute;
+            width: 0.8in;
+            height: 0.8in;
+            right: 0.0375in;
+            top: 0.0375in;
         }
 
         #return-address-text {
