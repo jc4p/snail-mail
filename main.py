@@ -7,7 +7,7 @@ from flask.ext.cors import CORS
 app = Flask(__name__)
 app.config['DEBUG'] = True #True if os.getenv("ENV", "DEBUG") is "PROD" else False
 assets = Environment(app)
-cors = CORS(app, resources='/send-letter', allow_headers="Content-Type")
+cors = CORS(app, resources=('/send-letter', '/static/*'), allow_headers="Content-Type")
 
 js_base = Bundle('external/jquery.min.js',
             'external/highlight/highlight.min.js',
