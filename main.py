@@ -21,7 +21,7 @@ assets.register('js_index', js_index)
 
 css_base = Bundle('external/bootstrap.min.css',
                 'external/flat-ui/flat-ui-pro.min.css',
-                'external/highlight/default.min.css'
+                'external/highlight/default.min.css',
                 filters='cssmin', output='gen/base.css')
 
 css_index = Bundle(Bundle('css/index.less', filters='less'),
