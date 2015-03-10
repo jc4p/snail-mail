@@ -58,3 +58,6 @@ target/
 # Flask stuff
 .webassets-cache/
 static/gen/
+
+# Our stuff
+letter.html

@@ -33,14 +33,17 @@ assets.register('css_index', css_index)
 def home():
     return render_template('index.html')
 
+
 import pdb
 @app.route('/send-letter', methods=['GET', 'POST'])
 def send():
-
     data = request.form
 
     sender = {'name': data['from-name'], 'address': data['from-address'], 'city': data['from-location'] }
     recipient = {'name': data['to-name'], 'address': data['to-address'], 'city': data['to-location'] }
+
+    full_letter = render_template("lob_base.html", message_html=data['html'])
+    createdObj = createLobObject(full_letter)
 
     # return true or false based on whether the address is valid
     has_from_address = verifyAddress(data['from-address'], data['from-location'].split(',')[0], data['from-location'].split(',')[1])
@@ -60,17 +63,11 @@ def verifyAddress(address, city, state):
         return 'False'
 
 
-
 def createLobObject(html):
-    payload = {'setting': 100, 'template': 1}
+    payload = {'setting': 100, 'template': 1, 'file': html}
     auth = ('test_07fa45ae745b1d90e49e36ebb2112d6c128', '')
-
-    tempFile = TemporaryFile()
-    tempFile.write(html)
-
-    files = {"file": ('upload.html', html, 'text/html')}
  
-    res = requests.post('https://api.lob.com/v1/objects', data=payload, auth=auth, files=files)
+    res = requests.post('https://api.lob.com/v1/objects', data=payload, auth=auth)
 
     return res.json()
 

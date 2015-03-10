@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send A Letter</title>
+
+    {% assets "css_base" %}<link rel="stylesheet" href="http://easy-snail-mail.herokuapp.com/{{ ASSET_URL }}"/>{% endassets %}
+    {% assets "css_index" %}<link rel="stylesheet" href="http://easy-snail-mail.herokuapp.com/{{ ASSET_URL }}"/>{% endassets %}
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Inconsolata' rel='stylesheet' type='text/css'>
+
+</style>
+</head>
+{% autoescape false %}
+<body>
+{{ message_html }}
+</body>
+{% endautoescape %}
+</html>

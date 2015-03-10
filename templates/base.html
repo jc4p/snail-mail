@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>{% block title %}Let's Send Some Mail{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% assets "css_base" %}<link rel="stylesheet" href="{{ ASSET_URL }}"/>{% endassets %}
+    {% assets "css_base" %}<link rel="stylesheet" href="{{ host }}{{ ASSET_URL }}"/>{% endassets %}
     {% block additional_header %}{% endblock %}
 
     <!--[if lt IE 9]>

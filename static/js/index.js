@@ -66,23 +66,17 @@ $(document).ready(function() {
     function sendLetter(tokenId) {
         data = $("#main-form").serializeObject();
         data['token'] = tokenId;
-        html = '<head>' + BASE_CSS + PRINT_CSS + '</head>';
 
         // Ok so let's clone the preview
-        pageHtml = $(".letter-preview").clone();
+        pageHtml = $(".letter-preview .page").clone();
         // Then let's blank out the names since Lob will print those (I think)
         pageHtml.find("#return-address-text").text('');
         pageHtml.find("#recipient-address-text").text('');
         // Then let's remove the color that was showing the window's boundaries
-        pageHtml.find("#return-address-window").css('background-color', '');
-        pageHtml.find("#return-address-window").css('background-color', '');
+        pageHtml.find("#return-address-window").css('background-color', 'transparent');
+        pageHtml.find("#recipient-address-window").css('background-color', 'transparent');
 
-        html += pageHtml.outerHTML();
-
-        var win = window.open("", "Print Preview");
-        win.document.write(html);
-
-        data['html'] = html
+        data['html'] = pageHtml.outerHTML();
 
         $.post("/send-letter", data, function(res) {
             console.log(res);
