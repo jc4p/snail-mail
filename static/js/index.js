@@ -68,9 +68,14 @@ $(document).ready(function() {
         data['token'] = tokenId;
         html = '<head>' + BASE_CSS + PRINT_CSS + '</head>';
 
+        // Ok so let's clone the preview
         pageHtml = $(".letter-preview").clone();
+        // Then let's blank out the names since Lob will print those (I think)
         pageHtml.find("#return-address-text").text('');
         pageHtml.find("#recipient-address-text").text('');
+        // Then let's remove the color that was showing the window's boundaries
+        pageHtml.find("#return-address-window").css('background-color', '');
+        pageHtml.find("#return-address-window").css('background-color', '');
 
         html += pageHtml.outerHTML();
 
