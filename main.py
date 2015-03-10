@@ -36,7 +36,6 @@ def home():
     return render_template('index.html')
 
 
-import pdb
 @app.route('/send-letter', methods=['GET', 'POST'])
 def send():
     data = request.form
