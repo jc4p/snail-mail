@@ -67,6 +67,8 @@ $(document).ready(function() {
         data = $("#main-form").serializeObject();
         data['token'] = tokenId;
 
+        console.log("token is", tokenId);
+
         // Ok so let's clone the preview
         pageHtml = $(".letter-preview .page").clone();
         // Then let's blank out the names since Lob will print those (I think)
