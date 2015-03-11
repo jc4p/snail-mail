@@ -15,8 +15,10 @@
 <body>
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Let's Send Some Mail</a>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Let's Send Some Mail</a>
+            </div>
+            {% if in_test %}<p class="navbar-text"><span class="label label-info">TEST MODE</span> - Letters will not actually send.</p>{% endif %}
         </div>
     </div>
 </nav>
