@@ -30,12 +30,13 @@ css_index = Bundle(Bundle('css/index.less', filters='less'),
 assets.register('css_base', css_base)
 assets.register('css_index', css_index)
 
-LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if int(os.getenv('TEST_MODE', 1)) == 1 else os.getenv('LOB_API_KEY'), '')
+IN_TEST_MODE = int(os.getenv('TEST_MODE', 1)) == 1
+LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if IN_TEST_MODE else os.getenv('LOB_API_KEY'), '')
 
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', in_test=IN_TEST_MODE)
 
 
 @app.route('/send-letter', methods=['GET', 'POST'])
