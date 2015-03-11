@@ -36,10 +36,13 @@ LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if IN_TEST_MODE else os.g
 STRIPE_AUTH = ('K4tdXzvrAYrt5gUpgzAdROuKjAt49usy' if IN_TEST_MODE else os.getenv('STRIPE_API_KEY'), '')
 
 
-
 @app.route('/')
 def home():
-    return render_template('index.html', in_test=IN_TEST_MODE)
+    twitter_url = "https://twitter.com/intent/tweet"
+    twitter_url += "?text=I just sent a letter with a tweet, thanks to $APP_NAME!"
+    twitter_url += "&url={}".format("http://easy-snail-mail.herokuapp.com")
+    return render_template('index.html', in_test=IN_TEST_MODE, twitter_url=twitter_url)
+
 
 import pdb
 @app.route('/send-letter', methods=['GET', 'POST'])
