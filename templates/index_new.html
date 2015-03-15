@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block additional_header %}
+{% assets "css_index" %}<link rel="stylesheet" href="{{ ASSET_URL }}"/>{% endassets %}{% endblock %}
+
+{% block additional_js %}
+{% assets "js_index" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+<script src="https://checkout.stripe.com/checkout.js"></script>{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 recipient-container">
+            <h4>#TODO some marketing text?</h4>
+            <p>Enter the recipient's information below:</p>
+            <div class="form-group">
+                <input id="to-name" name="to-name" type="text" placeholder="Their Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input id="to-address" name="to-address" type="text" placeholder="Their Street Address" class="form-control" />
+            </div>
+            <div class="form-group address-container">
+                <input id="to-city" name="to-city" type="text" placeholder="Their City" class="form-control" />
+                <input id="to-state" name="to-state" type="text" placeholder="State" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input id="to-zip" name="to-zip" type="text" placeholder="and ZIP Code" class="form-control" />
+            </div>
+            <button class="btn btn-primary btn-block">Get Started 🐌</button>
+        </div>
+        <div class="col-md-6 col-md-offset-3 sender-container">
+            <h4>#TODO some other marketing text?</h4>
+            <p>Who are you? (Who who, who who)</p>
+            <div class="form-group">
+            <input id="from-name" name="from-name" type="text" placeholder="Your Name" class="form-control" />
+            </div>
+            <div class="form-group">
+            <input id="from-address" name="from-address" type="text" placeholder="Your Street Address" class="form-control" />
+            </div>
+            <div class="form-group">
+            <input id="from-location" name="from-location" type="text" placeholder="Your City And State" class="form-control" />
+            </div>
+            <div class="form-group">
+            <input id="from-image" name="from-image" type="text" placeholder="URL for an image next to your name, if you'd like" class="form-control" />
+            </div>
+            <button class="btn btn-primary btn-block">Get Ready To Write 🐌</button>
+        </div>
+    </div>
+</div>
+
+<!--stick modal here -->
+
+<div id="after-send-attempt" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock %}
