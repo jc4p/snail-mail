@@ -67,6 +67,8 @@ $(document).ready(function() {
         data = $("#main-form").serializeObject();
         data['token'] = tokenId;
 
+        console.log("token is", tokenId);
+
         // Ok so let's clone the preview
         pageHtml = $(".letter-preview .page").clone();
         // Then let's blank out the names since Lob will print those (I think)
@@ -79,7 +81,15 @@ $(document).ready(function() {
         data['html'] = pageHtml.outerHTML();
 
         $.post("/send-letter", data, function(res) {
-            console.log(res);
+            if (res.success == true) {
+                $('#after-send-attempt .modal-body p').text("Your letter is on its way!");
+            }
+            else {
+                // modal text displays error
+                var error = res.error;
+                $('#after-send-attempt .modal-body p').text(error, "Please try again.");
+            }
+            $('#after-send-attempt').modal('show');
         });
     }
 
@@ -143,3 +153,6 @@ $.fn.outerHTML = function(s) {
   ? this.before(s).remove()
   : jQuery("<p>").append(this.eq(0).clone()).html();
 }
+
+// Give the modal an identity
+$('#after-send-attempt').modal({"show": false});

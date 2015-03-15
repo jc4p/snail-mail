@@ -15,7 +15,7 @@ $ virtualenv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
 $ npm install -g less
-$ foreman start
+$ foreman run python main.py
 ```
 
 You can now view a local instance at http://localhost:5000/

@@ -30,41 +30,58 @@ css_index = Bundle(Bundle('css/index.less', filters='less'),
 assets.register('css_base', css_base)
 assets.register('css_index', css_index)
 
-LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if int(os.getenv('TEST_MODE', 1)) == 1 else os.getenv('LOB_API_KEY'), '')
+
+IN_TEST_MODE = int(os.getenv('TEST_MODE', 1)) == 1
+LOB_AUTH = ('test_07fa45ae745b1d90e49e36ebb2112d6c128' if IN_TEST_MODE else os.getenv('LOB_API_KEY'), '')
+STRIPE_AUTH = ('K4tdXzvrAYrt5gUpgzAdROuKjAt49usy' if IN_TEST_MODE else os.getenv('STRIPE_API_KEY'), '')
 
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    twitter_url = "https://twitter.com/intent/tweet"
+    twitter_url += "?text=I just sent a letter with a tweet, thanks to $APP_NAME!"
+    twitter_url += "&url={}".format("http://easy-snail-mail.herokuapp.com")
+    return render_template('index.html', in_test=IN_TEST_MODE, twitter_url=twitter_url)
 
 
+import pdb
 @app.route('/send-letter', methods=['GET', 'POST'])
 def send():
     data = request.form
 
-    senderAddress = verifyAddress(data['from-address'].strip(), data['from-location'].split(',')[0].strip(), data['from-location'].split(',')[1].strip())
-    recipientAddress = verifyAddress(data['to-address'].strip(), data['to-location'].split(',')[0].strip(), data['to-location'].split(',')[1].strip())
+    # process stripe charge
+    token = data.get('token', None)
+    if token:
+        payload = {'amount':299, 'currency': 'usd', 'source': token, 'description': 'Sending 1 letter via owl'}
+        auth = STRIPE_AUTH
+        res = requests.post('https://api.stripe.com/v1/charges', data=payload, auth=STRIPE_AUTH)
+        if res.status_code in [200, 201, 202]:
+            
+            senderAddress = verifyAddress(data['from-address'].strip(), data['from-location'].split(',')[0].strip(), data['from-location'].split(',')[1].strip())
+            recipientAddress = verifyAddress(data['to-address'].strip(), data['to-location'].split(',')[0].strip(), data['to-location'].split(',')[1].strip())
 
-    if not senderAddress or not recipientAddress:
-        return jsonify({"success": False, "error": "Unable to verify your address."})
+            if not senderAddress or not recipientAddress:
+                return jsonify({"success": False, "error": "Unable to verify your address."})
 
-    sender = createAddress(data['from-name'], senderAddress)
-    recipient = createAddress(data['to-name'], recipientAddress)
+            sender = createAddress(data['from-name'], senderAddress)
+            recipient = createAddress(data['to-name'], recipientAddress)
 
-    if not sender or not recipient:
-        return jsonify({"success": False, "error": "Unable to save your address."})
+            if not sender or not recipient:
+                return jsonify({"success": False, "error": "Unable to save your address."})
 
-    full_letter = render_template("lob_base.html", message_html=data['html'])
-    createdObj = createLobObject(full_letter)
+            full_letter = render_template("lob_base.html", message_html=data['html'])
+            createdObj = createLobObject(full_letter)
 
-    service = int(data['service'])
+            service = int(data['service'])
 
-    job = sendLetter(recipient['id'], sender['id'], createdObj['id'], service)
+            job = sendLetter(recipient['id'], sender['id'], createdObj['id'], service)
 
-    if not job:
-        return jsonify({"success": False, "error": "Unable to send letter."})
+            if not job:
+                return jsonify({"success": False, "error": "Unable to send letter."})
 
-    return jsonify({"success": True})
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False, "error": "Stripe authentication failed."})
 
 
 def verifyAddress(address, city, state):
@@ -106,4 +123,4 @@ def sendLetter(recipient, sender, object_id, service):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)

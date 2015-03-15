@@ -32,9 +32,9 @@
             <button id="payment-btn-stripe" class="btn btn-social-twitter">
                 <span class="fui-credit-card"></span> Send For <span class="payment-price">$2.99</span>
             </button>
-            <button id="payment-btn-twitter" class="btn btn-social-twitter">
+            <a id="payment-btn-twitter" class="btn btn-social-twitter" target="_blank" href="{{ twitter_url }}">
                 <span class="fui-twitter"></span> Send With A Tweet
-            </button>
+            </a>
         </div>
     </div>
     </form>
@@ -83,4 +83,20 @@ If you're sending a letter to a nerdy friend you can even do:
     <div class="shadow-div">
     </div>
 </div>
+
+<!--stick modal here -->
+
+<div id="after-send-attempt" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 {% endblock %}
