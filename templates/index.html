@@ -11,31 +11,23 @@
 {% block content %}
 <div class="container">
     <form id="main-form" method="POST" action="/send-letter">
-    <div class="row contact-details">
-        <div class="col-md-4 from-container">
-            <input id="from-name" name="from-name" type="text" placeholder="Your Name" class="form-control" />
-            <input id="from-address" name="from-address" type="text" placeholder="Your Street Address" class="form-control" />
-            <input id="from-location" name="from-location" type="text" placeholder="Your City And State" class="form-control" />
-            <input id="from-image" name="from-image" type="text" placeholder="URL for an image next to your name, if you'd like" class="form-control" />
-        </div>
-        <div class="col-md-3 col-md-offset-2 recipient-container">
-            <input id="to-name" name="to-name" type="text" placeholder="Their Name" class="form-control" />
-            <input id="to-address" name="to-address" type="text" placeholder="Their Street Address" class="form-control" />
-            <input id="to-location" name="to-location" type="text" placeholder="Their City And State" class="form-control" />
-            <select name="service" class="form-control select select-inverse select-block mbm">
-                    <option value="0">Regular USPS Mail</option>
-                    <option value="3">Registered USPS Mail</option>
-                    <option value="2">Certified USPS First Class</option>
-            </select>
-        </div>
-        <div class="col-md-3 payment-container">
-            <button id="payment-btn-stripe" class="btn btn-social-twitter">
-                <span class="fui-credit-card"></span> Send For <span class="payment-price">$2.99</span>
-            </button>
-            <a id="payment-btn-twitter" class="btn btn-social-twitter" target="_blank" href="{{ twitter_url }}">
-                <span class="fui-twitter"></span> Send With A Tweet
-            </a>
-        </div>
+    <div class="row">
+        <div class="contact-details">
+            <div class="col-md-4 sender-container">
+                <input id="sender-name" name="sender-name" type="text" placeholder="Your Name" class="form-control" />
+                <input id="sender-address" name="sender-address" type="text" placeholder="Your Street Address" class="form-control" />
+                <input id="sender-location" name="sender-location" type="text" placeholder="Your City And State" class="form-control" />
+            </div>
+            <!-- Let's create a CSS3 stamp -->
+            <div class="stamp">
+                🐌
+            </div>
+            <div class="col-md-3 recipient-container">
+                <input id="to-name" name="to-name" type="text" placeholder="Their Name" class="form-control" />
+                <input id="to-address" name="to-address" type="text" placeholder="Their Street Address" class="form-control" />
+                <input id="to-location" name="to-location" type="text" placeholder="Their City And State" class="form-control" />
+            </div>
+        </div>  
     </div>
     </form>
     <div class="row message-container">
@@ -78,6 +70,23 @@ If you're sending a letter to a nerdy friend you can even do:
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <select name="service" class="form-control select select-inverse select-block mbm">
+                <option value="0">Regular USPS Mail</option>
+                <option value="3">Registered USPS Mail</option>
+                <option value="2">Certified USPS First Class</option>
+            </select>
+        </div>
+        <div class="col-md-3 payment-container">
+            <button id="payment-btn-stripe" class="btn btn-social-twitter">
+                <span class="fui-credit-card"></span> Send For <span class="payment-price">$2.99</span>
+            </button>
+            <a id="payment-btn-twitter" class="btn btn-social-twitter" target="_blank" href="{{ twitter_url }}">
+                <span class="fui-twitter"></span> Send With A Tweet
+            </a>
         </div>
     </div>
     <div class="shadow-div">
