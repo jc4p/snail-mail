@@ -44,6 +44,10 @@ def home():
     return render_template('index.html', in_test=IN_TEST_MODE, twitter_url=twitter_url)
 
 
+@app.route('/new')
+def home_new():
+    return render_template('index_new.html')
+
 import pdb
 @app.route('/send-letter', methods=['GET', 'POST'])
 def send():
